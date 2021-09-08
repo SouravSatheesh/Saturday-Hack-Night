@@ -11,11 +11,12 @@ class SearchResult extends StatefulWidget {
   _SearchResultState createState() => _SearchResultState();
 }
 
-Future<Model> getData() async {
+Future<Model> getData(String query) async {
   var model;
   var response = await http.get(
-      Uri.parse("https://api.github.com/search/repositories?q=robocet"),
-      headers: {"Accept": "application/json"});
+    Uri.parse('https://api.github.com/search/repositories?q=$query'),
+    headers: {"Accept": "application/json"},
+  );
   if (response.statusCode == 200) {
     var jsonString = response.body;
     Map<String, dynamic> jsonMap = json.decode(jsonString);
@@ -33,11 +34,12 @@ class _SearchResultState extends State<SearchResult> {
   @override
   void initState() {
     super.initState();
-    model = getData();
+    model = getData(widget.search);
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text("FireFlutters"),
         centerTitle: true,
@@ -52,30 +54,71 @@ class _SearchResultState extends State<SearchResult> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
+                shrinkWrap: true,
                 physics: BouncingScrollPhysics(),
+                itemCount: snapshot.data!.totalCount > 20
+                    ? 20
+                    : snapshot.data!.totalCount,
                 itemBuilder: (context, index) {
                   return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Center(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              height: 40,
-                              width: 300,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
-                                child: Text(
-                                  snapshot.data!.items[index].name,
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          height: 100,
+                          width: MediaQuery.of(context).size.width - 50,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        snapshot.data!.items[index].name,
+                                        style: TextStyle(
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        overflow: TextOverflow.fade,
+                                        softWrap: false,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 16),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '${snapshot.data!.items[index].rating}',
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 5),
+                                            child: Text(
+                                              '★',
+                                              style: TextStyle(fontSize: 22),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  snapshot.data!.items[index].owner,
                                   style: TextStyle(
-                                    
+                                    fontSize: 17,
+                                    fontStyle: FontStyle.italic,
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                         ),
@@ -83,7 +126,6 @@ class _SearchResultState extends State<SearchResult> {
                     ],
                   );
                 },
-                itemCount: snapshot.data!.totalCount,
               );
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
