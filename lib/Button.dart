@@ -4,7 +4,7 @@ Widget buttonblue(BuildContext context, String label) {
   return Container(
     padding: EdgeInsets.symmetric(vertical: 13),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: Color.fromRGBO(255, 255, 255, 0.9),
       borderRadius: BorderRadius.circular(30),
     ),
     height: 50,

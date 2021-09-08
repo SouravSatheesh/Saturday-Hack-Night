@@ -37,11 +37,10 @@ class _SearchState extends State<Search> {
               SizedBox(
                 height: 30,
               ),
-              Container(
+              Image(
+                image: AssetImage("lib/images/github.png"),
                 height: 175,
                 width: 175,
-                child: Image.network(
-                    "https://www.freeiconspng.com/uploads/github-icon-9.png"),
               ),
               SizedBox(
                 height: 50,
@@ -84,7 +83,8 @@ class _SearchState extends State<Search> {
                   ),
                 ),
               ),
-              GestureDetector(
+              InkWell(
+                borderRadius: BorderRadius.circular(30),
                 onTap: () {
                   if (search.text.isEmpty) {
                     setState(() {});
