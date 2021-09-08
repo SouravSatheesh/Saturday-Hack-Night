@@ -73,7 +73,7 @@ class _SearchResultState extends State<SearchResult> {
                             borderRadius: BorderRadius.circular(10),
                             splashColor: Colors.white,
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>repoDetails(snapshot.data!.items[index])));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>RepoDetails(snapshot.data!.items[index])));
                             },
                             child: Container(
                               decoration: BoxDecoration(

@@ -3,11 +3,11 @@ import 'package:fireflutters/model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class repoDetails extends StatefulWidget {
+class RepoDetails extends StatefulWidget {
   final Item repo;
-  repoDetails(this.repo);
+  RepoDetails(this.repo);
   @override
-  _repoDetailsState createState() => _repoDetailsState();
+  _RepoDetailsState createState() => _RepoDetailsState();
 }
 
 Future<User> getData(String name) async {
@@ -27,7 +27,7 @@ Future<User> getData(String name) async {
   }
 }
 
-class _repoDetailsState extends State<repoDetails> {
+class _RepoDetailsState extends State<RepoDetails> {
   late final user;
 
   @override
