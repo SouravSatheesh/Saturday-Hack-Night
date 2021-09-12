@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fireflutters/LangColors.dart';
 import 'package:fireflutters/model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -52,6 +53,7 @@ class _RepoDetailsState extends State<RepoDetails> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
@@ -100,7 +102,35 @@ class _RepoDetailsState extends State<RepoDetails> {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    if (widget.repo.language != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20,),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Color(int.parse(
+                                      langColors[widget.repo.language]!
+                                          .replaceAll('#', '0xff'))),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              '${widget.repo.language}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                              ),
+                            )
+                          ],
+                        ),
+                      )
                   ],
                 );
               } else if (snapshot.hasError) {

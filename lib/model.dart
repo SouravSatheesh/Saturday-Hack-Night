@@ -16,12 +16,14 @@ class Item {
   String owner;
   int rating;
   String avatar;
+  String? language;
 
   Item({
     required this.name,
     required this.owner,
     required this.rating,
     required this.avatar,
+    required this.language,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
@@ -30,6 +32,7 @@ class Item {
       owner: json['owner']['login'],
       rating: json['stargazers_count'],
       avatar: json['owner']['avatar_url'],
+      language: json['language'],
     );
   }
 }
